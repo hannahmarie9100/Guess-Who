@@ -33,11 +33,7 @@
 function onRoomStart() {
   return {
     state: {
-      board: [
-        [null, null, null],
-        [null, null, null],
-        [null, null, null],
-      ],
+      messages: [],
       winner: null
     }
   };
