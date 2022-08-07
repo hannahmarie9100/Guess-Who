@@ -3,6 +3,7 @@ import { ThemeProvider, Typography, Stack, Box } from '@mui/material';
 
 import client, { events } from '@urturn/client';
 import theme from './theme';
+import Cellphone from './Cellphone';
 
 function App() {
   const [boardGame, setBoardGame] = useState(client.getBoardGame() || {});
@@ -19,54 +20,10 @@ function App() {
   console.log('boardGame:', boardGame);
 
   const {
-    state: {
-      board
-    } = {
-      board: [
-        [null, null, null],
-        [null, null, null],
-        [null, null, null],
-      ]
-    }
+    state
   } = boardGame;
 
-  return (
-    <ThemeProvider theme={theme}>
-      <Typography>
-        <Stack margin={2} spacing={1} direction="row" justifyContent="center">
-          <Box>
-            {board.map((row, rowNum) => (
-              <Stack key={rowNum} direction="row">
-                {row.map((val, colNum) => (
-                  <Stack
-                    onClick={async (event) => {
-                      event.preventDefault();
-                      const move = { x: rowNum, y: colNum };
-                      await client.makeMove(move);
-                    }}
-                    key={colNum}
-                    direction="row"
-                    justifyContent="center"
-                    alignItems="center"
-                    sx={{
-                      border: 1,
-                      borderColor: 'text.primary',
-                      height: '100px',
-                      width: '100px',
-                    }}
-                  >
-                    <Typography color="text.primary" fontSize="60px">
-                      {val}
-                    </Typography>
-                  </Stack>
-                ))}
-              </Stack>
-            ))}
-          </Box>
-        </Stack>
-      </Typography>
-    </ThemeProvider>
-  );
+  return <Cellphone />;
 }
 
 export default App;
