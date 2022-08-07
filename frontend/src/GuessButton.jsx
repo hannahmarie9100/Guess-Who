@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import { Button } from '@mui/material';
 
-function GuessButton() {
+function GuessButton({ setGuessMode }) {
     return <Button
         sx={{
             width: 100,
@@ -11,7 +11,9 @@ function GuessButton() {
             margin: "15px",
             color: "white"
         }}
-    >Guess
+        onClick={() => setGuessMode(true)}
+    >
+        Guess
     </Button>
 }
 

@@ -121,10 +121,8 @@ function onPlayerMove(plr, move, boardGame) {
   const { state, players, finished } = boardGame;
   const { type, data } = move;
 
-  console.log()
   if (type === MoveTypes.ChooseCharacter) {
     state.characters[plr.id] = data;
-    console.log(state)
   } else if (type === MoveTypes.Question) {
     state.messages.push({
       sender: plr.id,
@@ -153,7 +151,8 @@ function onPlayerMove(plr, move, boardGame) {
 
     if (correctGuess) {
       state.winner = plr
-      finished = true
+      
+      return { state, finished: true }
     }
 
   }

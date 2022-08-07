@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Character from './Character';
 import { Grid } from '@mui/material';
 
-function Board({ selectMode, setSelectMode }) {
+function Board({ selectMode, setSelectMode, guessMode, setGuessMode, selectedCharacter }) {
     const [characterImages, setCharacterImages] = useState([])
     const getRandomImages = () => {
         const images = [...Array(50).keys()];
@@ -21,10 +21,11 @@ function Board({ selectMode, setSelectMode }) {
             backgroundColor: "#ffffff",
             borderRadius: "25px",
             marginTop: "70px",
+            filter: guessMode ? "drop-shadow(8px 8px 4px #00000060)" : ""
         }}
     >
         <Grid container spacing={2}>
-            {characterImages.map((id) => <Grid item><Character id={id} selectMode={selectMode} setSelectMode={setSelectMode}></Character></Grid>)}
+            {characterImages.map((id) => <Grid item><Character id={id} selectMode={selectMode} setSelectMode={setSelectMode} guessMode={guessMode} setGuessMode={setGuessMode} isCharacter={selectedCharacter && selectedCharacter === id}></Character></Grid>)}
         </Grid>
     </Box>
 }
