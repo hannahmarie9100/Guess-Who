@@ -40,6 +40,8 @@ function App() {
     },
   } = boardGame;
 
+  console.log(boardGame);
+
   function getTitleText() {
     if (winner)
       return `${winner.username} won!`

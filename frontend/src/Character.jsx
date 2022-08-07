@@ -37,7 +37,7 @@ const Character = ({ id, selectMode, setSelectMode, guessMode, setGuessMode, isC
             setClicked(!clicked)
         }
     }
-    return <Box sx={() => BoxStyles(clicked, isCharacter)} onClick={handleClick}><img src={`/imgs/${id}.svg`} style={{ height: "100%" }} /></Box>
+    return <Box sx={() => BoxStyles(clicked, isCharacter)} onClick={handleClick}><img src={`https://raw.githubusercontent.com/hannahmarie9100/tictactoe/31c5ebf2e6c4602c0a344bc885983ef9d3fa58c3/frontend/public/imgs/${msg.slice(-3)}.svg`} style={{ height: "100%" }} /></Box>
 }
 
 const BoxStyles = (clicked, isCharacter) => ({
