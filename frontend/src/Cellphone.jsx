@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Box from '@mui/material/Box';
 import { Button, Grid, IconButton, Stack, TextField } from '@mui/material';
 import ChatMsg from './ChatMsg';
@@ -12,7 +12,16 @@ const Cellphone = ({ messages, player, plrToMove, winner }) => {
     const { setError } = useErrorContext()
     const HandleQuestionChange = (event) => [setQuestion(event.target.value)]
 
-    console.log("LAST: ", messages[messages.length - 1])
+    const messagesEndRef = useRef(null)
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+    }
+
+    useEffect(() => {
+        scrollToBottom()
+    }, [messages]);
+
     return <Box
         sx={{
             width: "25vw",
@@ -35,6 +44,7 @@ const Cellphone = ({ messages, player, plrToMove, winner }) => {
                     <YesNoButton buttonText="Yes"></YesNoButton>
                     <YesNoButton buttonText="No"></YesNoButton>
                 </Stack> : null}
+                <div style={{ height: "5px" }} ref={messagesEndRef}></div>
             </Stack>
         </Box>
         <Box
