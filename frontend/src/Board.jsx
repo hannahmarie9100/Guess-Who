@@ -16,7 +16,7 @@ function Board({ selectMode, setSelectMode, guessMode, setGuessMode, selectedCha
 
     return <Box
         sx={{
-            width: 800,
+            width: "725px",
             height: "70vh",
             maxHeight: "600px",
             backgroundColor: "#ffffff",

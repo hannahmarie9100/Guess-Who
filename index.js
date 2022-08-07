@@ -43,8 +43,7 @@ function onRoomStart() {
       messages: [],
       winner: null,
       characters: {},
-      plrToMove: null,
-      c: {}
+      plrToMove: null
     }
   };
 }

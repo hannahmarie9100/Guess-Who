@@ -41,8 +41,8 @@ const Character = ({ id, selectMode, setSelectMode, guessMode, setGuessMode, isC
 }
 
 const BoxStyles = (clicked, isCharacter) => ({
-    width: "120px",
-    height: "120px",
+    width: "107px",
+    height: "107px",
     "&:hover": {
         filter: "drop-shadow(8px 8px 4px #00000060)",
     },
