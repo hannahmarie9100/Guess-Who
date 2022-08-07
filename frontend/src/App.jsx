@@ -11,6 +11,7 @@ function App() {
   const [boardGame, setBoardGame] = useState(client.getBoardGame() || {});
   const [player, setPlayer] = useState(null);
   const [selectMode, setSelectMode] = useState(true)
+  const [guessMode, setGuessMode] = useState(false);
 
   useEffect(() => {
     const onStateChanged = (newBoardGame) => {
@@ -48,14 +49,14 @@ function App() {
   useEffect(() => {
     if ((Object.keys(characters).length === 2))
       setSelectMode(false)
-  }, [])
+  }, [characters])
 
   return <Box sx={{ backgroundColor: "#EDF1F5", width: "100vw", height: "100vh", overflow: "hidden" }}><Stack direction="row" spacing={2} alignItems="center">
     <Cellphone player={player} messages={messages}></Cellphone>
     <Stack direction="column" space={4} >
       <Typography variant="h2">{getTitleText()}</Typography>
-      <Board selectMode={selectMode} setSelectMode={setSelectMode}></Board>
-      <GuessButton></GuessButton>
+      <Board selectMode={selectMode} setSelectMode={setSelectMode} guessMode={guessMode} setGuessMode={setGuessMode}></Board>
+      <GuessButton setGuessMode={setGuessMode}></GuessButton>
     </Stack>
   </Stack> </Box>;
 }

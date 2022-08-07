@@ -4,15 +4,18 @@ import { useState } from "react";
 import client from "@urturn/client";
 import { MoveTypes } from "./types";
 
-const Character = ({ id, selectMode, setSelectMode }) => {
+const Character = ({ id, selectMode, setSelectMode, guessMode, setGuessMode }) => {
     const [clicked, setClicked] = useState(false)
     const handleClick = () => {
         console.log(selectMode)
-        if (selectMode) {
-            console.log({
-                "type": MoveTypes.ChooseCharacter,
+        if (guessMode) {
+            client.makeMove({
+                "type": MoveTypes.Guess,
                 "data": id
             })
+            setGuessMode(false)
+        }
+        else if (selectMode) {
             client.makeMove({
                 "type": MoveTypes.ChooseCharacter,
                 "data": id
@@ -29,10 +32,10 @@ const BoxStyles = (clicked) => ({
     width: "120px",
     height: "120px",
     "&:hover": {
-        filter: "drop-shadow(8px 8px 4px #00000060)"
+        filter: "drop-shadow(8px 8px 4px #00000060)",
     },
     cursor: "pointer",
-    opacity: clicked ? "20%" : "100%"
+    opacity: clicked ? "20%" : "100%",
 })
 
 export default Character
