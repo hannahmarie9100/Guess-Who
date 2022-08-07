@@ -31,16 +31,19 @@ function App() {
 
   const {
     state: {
-      messages, characters, plrToMove
+      messages, characters, plrToMove, winner
     } = {
       messages: [],
       characters: {},
-      plrToMove: ""
+      plrToMove: "",
+      winner: null
     },
   } = boardGame;
 
   function getTitleText() {
-    if (selectMode && (Object.keys(characters).length !== 2))
+    if (winner)
+      return `${winner.username} won!`
+    if (selectMode && (characters && Object.keys(characters).length !== 2))
       return "Select your character!"
     else if (Object.keys(characters).length < 2)
       return "Waiting on other player..."
@@ -55,9 +58,9 @@ function App() {
   }, [characters])
 
   return <Box sx={{ backgroundColor: "#EDF1F5", width: "100vw", height: "100vh", overflow: "hidden" }} display="flex" justifyContent="center" alignItems="center"><Stack direction="row" spacing={2} alignItems="center">
-    <Cellphone player={player} messages={messages} plrToMove={plrToMove}></Cellphone>
+    <Cellphone player={player} messages={messages} plrToMove={plrToMove} winner={winner}></Cellphone>
     <Stack direction="column" space={4} justifyContent="center" alignItems="center">
-      <Box sx={{ height: "10vh" }}><Typography variant="h4">{getTitleText()}</Typography></Box>
+      <Box sx={{ height: "10vh", display: "flex", alignItems: "center" }}><Typography variant="h4">{getTitleText()}</Typography></Box>
       <Board selectMode={selectMode} setSelectMode={setSelectMode} guessMode={guessMode} setGuessMode={setGuessMode} selectedCharacter={player && characters[player.id] ? characters[player.id] : null}></Board>
       <GuessButton guessMode={guessMode} setGuessMode={setGuessMode}></GuessButton>
     </Stack>
