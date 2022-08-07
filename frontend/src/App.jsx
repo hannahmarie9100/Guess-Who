@@ -55,7 +55,7 @@ function App() {
     <Cellphone player={player} messages={messages}></Cellphone>
     <Stack direction="column" space={4} >
       <Typography variant="h2">{getTitleText()}</Typography>
-      <Board selectMode={selectMode} setSelectMode={setSelectMode} guessMode={guessMode} setGuessMode={setGuessMode}></Board>
+      <Board selectMode={selectMode} setSelectMode={setSelectMode} guessMode={guessMode} setGuessMode={setGuessMode} selectedCharacter={player && characters[player.id] ? characters[player.id] : null}></Board>
       <GuessButton setGuessMode={setGuessMode}></GuessButton>
     </Stack>
   </Stack> </Box>;

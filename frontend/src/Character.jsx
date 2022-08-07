@@ -4,7 +4,7 @@ import { useState } from "react";
 import client from "@urturn/client";
 import { MoveTypes } from "./types";
 
-const Character = ({ id, selectMode, setSelectMode, guessMode, setGuessMode }) => {
+const Character = ({ id, selectMode, setSelectMode, guessMode, setGuessMode, isCharacter }) => {
     const [clicked, setClicked] = useState(false)
     const handleClick = () => {
         console.log(selectMode)
@@ -25,10 +25,10 @@ const Character = ({ id, selectMode, setSelectMode, guessMode, setGuessMode }) =
             setClicked(!clicked)
         }
     }
-    return <Box sx={() => BoxStyles(clicked)} onClick={handleClick}><img src={`/imgs/${id}.svg`} style={{ height: "100%" }} /></Box>
+    return <Box sx={() => BoxStyles(clicked, isCharacter)} onClick={handleClick}><img src={`/imgs/${id}.svg`} style={{ height: "100%" }} /></Box>
 }
 
-const BoxStyles = (clicked) => ({
+const BoxStyles = (clicked, isCharacter) => ({
     width: "120px",
     height: "120px",
     "&:hover": {
@@ -36,6 +36,7 @@ const BoxStyles = (clicked) => ({
     },
     cursor: "pointer",
     opacity: clicked ? "20%" : "100%",
+    filter: isCharacter ? "drop-shadow(8px 8px 4px #edd36f)" : ""
 })
 
 export default Character
