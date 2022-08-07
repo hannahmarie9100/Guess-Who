@@ -10,6 +10,7 @@ import GuessButton from './GuessButton';
 function App() {
   const [boardGame, setBoardGame] = useState(client.getBoardGame() || {});
   const [player, setPlayer] = useState(null);
+  const [selectMode, setSelectMode] = useState(true)
 
   useEffect(() => {
     const onStateChanged = (newBoardGame) => {
@@ -28,19 +29,35 @@ function App() {
 
   const {
     state: {
-      messages
+      messages, characters
     } = {
-      messages: []
+      messages: [],
+      characters: {}
     },
   } = boardGame;
 
-  return <Stack direction="row" spacing={2} alignItems="center">
+  function getTitleText() {
+    if (selectMode && (Object.keys(characters).length !== 2))
+      return "Select your character!"
+    else if (Object.keys(characters).length < 2)
+      return "Waiting on other player..."
+
+    return ""
+  }
+
+  useEffect(() => {
+    if ((Object.keys(characters).length === 2))
+      setSelectMode(false)
+  }, [])
+
+  return <Box sx={{ backgroundColor: "#EDF1F5", width: "100vw", height: "100vh", overflow: "hidden" }}><Stack direction="row" spacing={2} alignItems="center">
     <Cellphone player={player} messages={messages}></Cellphone>
     <Stack direction="column" space={4} >
-      <Board></Board>
+      <Typography variant="h2">{getTitleText()}</Typography>
+      <Board selectMode={selectMode} setSelectMode={setSelectMode}></Board>
       <GuessButton></GuessButton>
     </Stack>
-  </Stack>;
+  </Stack> </Box>;
 }
 
 export default App;

@@ -1,10 +1,28 @@
 import React from "react";
 import Box from '@mui/material/Box';
 import { useState } from "react";
+import client from "@urturn/client";
+import { MoveTypes } from "./types";
 
-const Character = ({ id }) => {
+const Character = ({ id, selectMode, setSelectMode }) => {
     const [clicked, setClicked] = useState(false)
-    return <Box sx={() => BoxStyles(clicked)} onClick={() => setClicked(!clicked)}><img src={`/imgs/${id}.svg`} style={{ height: "100%" }} /></Box>
+    const handleClick = () => {
+        console.log(selectMode)
+        if (selectMode) {
+            console.log({
+                "type": MoveTypes.ChooseCharacter,
+                "data": id
+            })
+            client.makeMove({
+                "type": MoveTypes.ChooseCharacter,
+                "data": id
+            })
+            setSelectMode(false)
+        } else {
+            setClicked(!clicked)
+        }
+    }
+    return <Box sx={() => BoxStyles(clicked)} onClick={handleClick}><img src={`/imgs/${id}.svg`} style={{ height: "100%" }} /></Box>
 }
 
 const BoxStyles = (clicked) => ({

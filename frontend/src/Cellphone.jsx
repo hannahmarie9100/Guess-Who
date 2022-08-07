@@ -11,6 +11,7 @@ const Cellphone = ({ messages, player }) => {
     const [question, setQuestion] = useState("")
     const HandleQuestionChange = (event) => [setQuestion(event.target.value)]
 
+    console.log(player)
     return <Box
         sx={{
             width: 400,
@@ -26,7 +27,7 @@ const Cellphone = ({ messages, player }) => {
     >
         <Box sx={{ maxHeight: '88%', overflowY: 'scroll' }}>
             <Stack>
-                { messages.map((message) => <ChatMsg msg={message.message} isPlayer={message.sender === player.id} />) }
+                {messages.map((message) => <ChatMsg msg={message.message} isPlayer={message.sender === player.id} />)}
             </Stack>
         </Box>
         <Box
@@ -58,15 +59,15 @@ const Cellphone = ({ messages, player }) => {
                         fontSize: '14px',
                     },
                     endAdornment: (
-                    <IconButton onClick={() => {
-                        client.makeMove({
-                            "type": MoveTypes.Question,
-                            "data": question
-                        });
-                        setQuestion("");
-                    }}>
-                        <FontAwesomeIcon icon={faCircleArrowRight} />
-                    </IconButton>)
+                        <IconButton disabled={question === ""} onClick={() => {
+                            client.makeMove({
+                                "type": MoveTypes.Question,
+                                "data": question
+                            });
+                            setQuestion("");
+                        }}>
+                            <FontAwesomeIcon icon={faCircleArrowRight} />
+                        </IconButton>)
                 }}
             />
         </Box>
