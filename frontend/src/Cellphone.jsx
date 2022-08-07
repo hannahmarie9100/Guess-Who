@@ -11,11 +11,50 @@ const Cellphone = ()  => {
             height: 600,
             backgroundColor: "#ffffff",
             borderRadius: "25px",
-            padding: "30px 15px"
+            padding: "30px 15px",
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center'
         }}
     >
-        <Box>
+        <Box sx={{ maxHeight: '88%', overflowY: 'scroll' }}>
             <Stack>
+                <ChatMsg
+                    msg="How radsfjiddddddddddddddddddddddddddaajklaj ifi u"
+                />
+                <ChatMsg
+                    msg="How r u"
+                    isPlayer
+                />
+                <ChatMsg
+                    msg="How radsfjiddddddddddddddddddddddddddaajklaj ifi u"
+                />
+                <ChatMsg
+                    msg="How r u"
+                    isPlayer
+                />
+                <ChatMsg
+                    msg="How radsfjiddddddddddddddddddddddddddaajklaj ifi u"
+                />
+                <ChatMsg
+                    msg="How r u"
+                    isPlayer
+                />
+                <ChatMsg
+                    msg="How radsfjiddddddddddddddddddddddddddaajklaj ifi u"
+                />
+                <ChatMsg
+                    msg="How r u"
+                    isPlayer
+                />
+                <ChatMsg
+                    msg="How radsfjiddddddddddddddddddddddddddaajklaj ifi u"
+                />
+                <ChatMsg
+                    msg="How r u"
+                    isPlayer
+                />
                 <ChatMsg
                     msg="How radsfjiddddddddddddddddddddddddddaajklaj ifi u"
                 />
@@ -26,13 +65,18 @@ const Cellphone = ()  => {
             </Stack>
         </Box>
         <Box
-            sx={{
+            sx={({ palette }) => ({
                 width: 350,
                 height: 50,
-                backgroundColor: "#dce1e6",
+                backgroundColor: palette.grey[300],
                 borderRadius: "25px",
-                margin: "20px"
-            }}
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: '25px',
+                padding: '10px 15px',
+                fontSize: '144px'
+            })}
         >
             <TextField
                 fullWidth
@@ -40,6 +84,12 @@ const Cellphone = ()  => {
                 variant="standard"
                 InputProps={{
                     disableUnderline: true,
+                    style: {
+                        fontFamily:
+                        // eslint-disable-next-line max-len
+                        '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
+                        fontSize: '14px',
+                    }
                 }}
             />
         </Box>
