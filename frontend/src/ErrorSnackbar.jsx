@@ -5,7 +5,6 @@ import { useErrorContext } from './contexts/useErrorContext';
 function ErrorSnackbar() {
   const { error, setError } = useErrorContext();
 
-  console.log("ERROR: ", error)
   return (
     <Snackbar
       autoHideDuration={6000}

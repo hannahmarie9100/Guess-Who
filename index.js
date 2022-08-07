@@ -131,6 +131,9 @@ function onPlayerMove(plr, move, boardGame) {
   if (state.plrToMove !== plr.id) {
     throw new Error("It's not your move!")
   }
+  if (Object.keys(state.characters).length < 2) {
+    throw new Error("Both players must select their characters first!")
+  }
   
   if (type === MoveTypes.Question) {
     state.messages.push({

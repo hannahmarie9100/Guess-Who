@@ -31,10 +31,11 @@ function App() {
 
   const {
     state: {
-      messages, characters
+      messages, characters, plrToMove
     } = {
       messages: [],
-      characters: {}
+      characters: {},
+      plrToMove: ""
     },
   } = boardGame;
 
@@ -53,7 +54,7 @@ function App() {
   }, [characters])
 
   return <Box sx={{ backgroundColor: "#EDF1F5", width: "100vw", height: "100vh", overflow: "hidden" }} display="flex" justifyContent="center" alignItems="center"><Stack direction="row" spacing={2} alignItems="center">
-    <Cellphone player={player} messages={messages}></Cellphone>
+    <Cellphone player={player} messages={messages} plrToMove={plrToMove}></Cellphone>
     <Stack direction="column" space={4} justifyContent="center" alignItems="center">
       <Typography variant="h2">{getTitleText()}</Typography>
       <Board selectMode={selectMode} setSelectMode={setSelectMode} guessMode={guessMode} setGuessMode={setGuessMode} selectedCharacter={player && characters[player.id] ? characters[player.id] : null}></Board>

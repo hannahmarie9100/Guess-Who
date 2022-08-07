@@ -9,11 +9,12 @@ import { MoveTypes } from './types';
 import { useErrorContext } from './contexts/useErrorContext';
 import YesNoButton from './YesNoButton';
 
-const Cellphone = ({ messages, player }) => {
+const Cellphone = ({ messages, player, plrToMove }) => {
     const [question, setQuestion] = useState("")
     const { setError } = useErrorContext()
     const HandleQuestionChange = (event) => [setQuestion(event.target.value)]
 
+    console.log("LAST: ", messages[messages.length - 1])
     return <Box
         sx={{
             width: 400,
@@ -29,11 +30,12 @@ const Cellphone = ({ messages, player }) => {
     >
         <Box sx={{ width: 400, height: 600, maxHeight: '88%', overflowY: 'scroll' }}>
             <Stack>
-                <Stack direction="row">
+                {messages.map((message) => <ChatMsg msg={message.message} isPlayer={message.sender === player.id} />)}
+                {messages.length > 0 && player && (plrToMove === player.id && messages[messages.length - 1].sender !== player.id)
+                    ? <Stack direction="row">
                     <YesNoButton buttonText="Yes"></YesNoButton>
                     <YesNoButton buttonText="No"></YesNoButton>
-                </Stack>
-                {messages.map((message) => <ChatMsg msg={message.message} isPlayer={message.sender === player.id} />)}
+                </Stack> : null}
             </Stack>
         </Box>
         <Box
@@ -73,8 +75,9 @@ const Cellphone = ({ messages, player }) => {
 
                             if (error) {
                                 setError(error.message);
+                            } else {
+                                setQuestion("");
                             }
-                            setQuestion("");
                         }}>
                             <FontAwesomeIcon icon={faCircleArrowRight} />
                         </IconButton>)
