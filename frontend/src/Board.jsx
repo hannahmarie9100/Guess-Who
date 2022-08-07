@@ -5,9 +5,10 @@ function Board() {
     return <Box
 
         sx={{
-            width: 400,
-            height: 400,
-            backgroundColor: "#ffffff"
+            width: 800,
+            height: 600,
+            backgroundColor: "#ffffff",
+            borderRadius: "25px"
         }}
     >
     </Box>
