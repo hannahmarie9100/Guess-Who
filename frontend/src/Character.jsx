@@ -3,24 +3,36 @@ import Box from '@mui/material/Box';
 import { useState } from "react";
 import client from "@urturn/client";
 import { MoveTypes } from "./types";
+import { useErrorContext } from "./contexts/useErrorContext";
 
 const Character = ({ id, selectMode, setSelectMode, guessMode, setGuessMode, isCharacter }) => {
     const [clicked, setClicked] = useState(false)
-    const handleClick = () => {
+    const { setError } = useErrorContext()
+    const handleClick = async () => {
         console.log(selectMode)
         if (guessMode) {
-            client.makeMove({
+            const { error } = await client.makeMove({
                 "type": MoveTypes.Guess,
                 "data": id
             })
-            setGuessMode(false)
+
+            if (error) {
+                setError(error.message);
+            } else {
+                setGuessMode(false)
+            }
         }
         else if (selectMode) {
-            client.makeMove({
+            const { error } = await client.makeMove({
                 "type": MoveTypes.ChooseCharacter,
                 "data": id
             })
-            setSelectMode(false)
+
+            if (error) {
+                setError(error.message);
+            } else {
+                setSelectMode(false)
+            }
         } else {
             setClicked(!clicked)
         }

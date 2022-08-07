@@ -6,6 +6,7 @@ import theme from './theme';
 import Cellphone from './Cellphone';
 import Board from './Board';
 import GuessButton from './GuessButton';
+import ErrorSnackbar from './ErrorSnackbar';
 
 function App() {
   const [boardGame, setBoardGame] = useState(client.getBoardGame() || {});
@@ -51,14 +52,16 @@ function App() {
       setSelectMode(false)
   }, [characters])
 
-  return <Box sx={{ backgroundColor: "#EDF1F5", width: "100vw", height: "100vh", overflow: "hidden" }} display="flex" justifyContent="space-between" justifyContent="center" alignItems="center"><Stack direction="row" spacing={2} alignItems="center">
+  return <Box sx={{ backgroundColor: "#EDF1F5", width: "100vw", height: "100vh", overflow: "hidden" }} display="flex" justifyContent="center" alignItems="center"><Stack direction="row" spacing={2} alignItems="center">
     <Cellphone player={player} messages={messages}></Cellphone>
     <Stack direction="column" space={4} justifyContent="center" alignItems="center">
       <Typography variant="h2">{getTitleText()}</Typography>
       <Board selectMode={selectMode} setSelectMode={setSelectMode} guessMode={guessMode} setGuessMode={setGuessMode} selectedCharacter={player && characters[player.id] ? characters[player.id] : null}></Board>
       <GuessButton setGuessMode={setGuessMode}></GuessButton>
     </Stack>
-  </Stack> </Box>;
+  </Stack>
+  <ErrorSnackbar />
+  </Box>;
 }
 
 export default App;

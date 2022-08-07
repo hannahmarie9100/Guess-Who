@@ -6,12 +6,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleArrowRight } from '@fortawesome/free-solid-svg-icons'
 import client, { events } from '@urturn/client';
 import { MoveTypes } from './types';
+import { useErrorContext } from './contexts/useErrorContext';
 
 const Cellphone = ({ messages, player }) => {
     const [question, setQuestion] = useState("")
+    const { setError } = useErrorContext()
     const HandleQuestionChange = (event) => [setQuestion(event.target.value)]
 
-    console.log(player)
     return <Box
         sx={{
             width: 400,
@@ -59,11 +60,15 @@ const Cellphone = ({ messages, player }) => {
                         fontSize: '14px',
                     },
                     endAdornment: (
-                        <IconButton disabled={question === ""} onClick={() => {
-                            client.makeMove({
+                        <IconButton disabled={question === ""} onClick={async () => {
+                            const { error } = await client.makeMove({
                                 "type": MoveTypes.Question,
                                 "data": question
                             });
+
+                            if (error) {
+                                setError(error.message);
+                            }
                             setQuestion("");
                         }}>
                             <FontAwesomeIcon icon={faCircleArrowRight} />

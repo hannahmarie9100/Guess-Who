@@ -42,7 +42,8 @@ function onRoomStart() {
     state: {
       messages: [],
       winner: null,
-      characters: {}
+      characters: {},
+      plrToMove: null
     }
   };
 }
@@ -54,12 +55,14 @@ function onRoomStart() {
  * @returns {BoardGameResult}
  */
 function onPlayerJoin(plr, boardGame) {
-  const { players } = boardGame;
+  const { state, players } = boardGame;
 
   if (players.length === 2) {
     return { joinable: false };
   }
-  return {};
+
+  state.plrToMove = plr.id;
+  return { state };
 }
 
 // /**
@@ -123,12 +126,20 @@ function onPlayerMove(plr, move, boardGame) {
 
   if (type === MoveTypes.ChooseCharacter) {
     state.characters[plr.id] = data;
-  } else if (type === MoveTypes.Question) {
+  }
+
+  if (state.plrToMove !== plr.id) {
+    throw new Error("It's not your move!")
+  }
+  
+  if (type === MoveTypes.Question) {
     state.messages.push({
       sender: plr.id,
       message: data,
       // answer: undefined
-    }) // TODO state.playerToMove flips
+    })
+
+    state.plrToMove = getOtherPlayer(plr, players).id
   } else if (type === MoveTypes.Answer) {
     state.messages.push({
       sender: plr.id,
@@ -151,10 +162,11 @@ function onPlayerMove(plr, move, boardGame) {
 
     if (correctGuess) {
       state.winner = plr
-      
+
       return { state, finished: true }
     }
 
+    state.plrToMove = getOtherPlayer(plr, players).id
   }
 
   return { state, finished }
