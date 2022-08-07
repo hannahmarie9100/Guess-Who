@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import { Button, Grid, IconButton, Stack, TextField } from '@mui/material';
 import ChatMsg from './ChatMsg';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleArrowRight } from '@fortawesome/free-solid-svg-icons'
 import client, { events } from '@urturn/client';
 import { MoveTypes } from './types';
 import { useErrorContext } from './contexts/useErrorContext';
@@ -59,6 +57,22 @@ const Cellphone = ({ messages, player, plrToMove }) => {
                 fullWidth
                 placeholder="Enter your question here"
                 variant="standard"
+                onKeyPress={async (ev) => {
+                    if (ev.key === 'Enter') {
+                      // Do code here
+                      ev.preventDefault();
+                      const { error } = await client.makeMove({
+                        "type": MoveTypes.Question,
+                        "data": question
+                    });
+
+                    if (error) {
+                        setError(error.message);
+                    } else {
+                        setQuestion("");
+                    }
+                    }
+                  }}
                 InputProps={{
                     disableUnderline: true,
                     style: {
@@ -66,22 +80,7 @@ const Cellphone = ({ messages, player, plrToMove }) => {
                             // eslint-disable-next-line max-len
                             '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
                         fontSize: '14px',
-                    },
-                    endAdornment: (
-                        <IconButton disabled={question === ""} onClick={async () => {
-                            const { error } = await client.makeMove({
-                                "type": MoveTypes.Question,
-                                "data": question
-                            });
-
-                            if (error) {
-                                setError(error.message);
-                            } else {
-                                setQuestion("");
-                            }
-                        }}>
-                            <FontAwesomeIcon icon={faCircleArrowRight} />
-                        </IconButton>)
+                    }
                 }}
             />
         </Box>
