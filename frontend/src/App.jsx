@@ -25,9 +25,9 @@ function App() {
     state
   } = boardGame;
 
-  return <Stack direction="row" spacing={2}>
+  return <Stack direction="row" spacing={2} alignItems="center">
     <Cellphone></Cellphone>
-    <Stack direction="column" space={4}>
+    <Stack direction="column" space={4} >
       <Board></Board>
       <GuessButton></GuessButton>
     </Stack>

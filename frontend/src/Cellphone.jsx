@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
-import { Button, Grid, Stack, TextField } from '@mui/material';
+import { Button, Grid, IconButton, Stack, TextField } from '@mui/material';
 import ChatMsg from './ChatMsg';
 import SendIcon from '@mui/icons-material/Send';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleArrowRight } from '@fortawesome/free-solid-svg-icons'
+import client, { events } from '@urturn/client';
 
 
 const Cellphone = () => {
+    const [question, setQuestion] = useState("")
+    const HandleQuestionChange = (event) => [setQuestion(event.target.value)]
     return <Box
         sx={{
             width: 400,
@@ -82,6 +85,8 @@ const Cellphone = () => {
             })}
         >
             <TextField
+                value={question}
+                onChange={HandleQuestionChange}
                 fullWidth
                 placeholder="Enter your question here"
                 variant="standard"
@@ -93,7 +98,7 @@ const Cellphone = () => {
                             '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
                         fontSize: '14px',
                     },
-                    endAdornment: <FontAwesomeIcon icon={faCircleArrowRight} />
+                    endAdornment: <IconButton onClick={() => client.makeMove()}><FontAwesomeIcon icon={faCircleArrowRight} /></IconButton>
                 }}
             />
         </Box>
