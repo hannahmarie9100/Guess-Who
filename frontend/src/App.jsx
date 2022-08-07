@@ -60,12 +60,12 @@ function App() {
       setSelectMode(false)
   }, [characters])
 
-  return <Box sx={{ backgroundColor: "#EDF1F5", width: "100vw", height: "100vh", overflow: "hidden" }} display="flex" justifyContent="center" alignItems="center"><Stack direction="row" spacing={2} alignItems="center">
+  return <Box sx={{ backgroundColor: "#EDF1F5", width: "97vw", height: "97vh", overflow: "hidden", margin: "auto" }} display="flex" justifyContent="center" alignItems="center"><Stack direction="row" spacing={2} alignItems="center">
     <Cellphone player={player} messages={messages} plrToMove={plrToMove} winner={winner}></Cellphone>
     <Stack direction="column" space={4} justifyContent="center" alignItems="center">
       <Box sx={{ height: "10vh", display: "flex", alignItems: "center" }}><Typography variant="h4">{getTitleText()}</Typography></Box>
       <Board selectMode={selectMode} setSelectMode={setSelectMode} guessMode={guessMode} setGuessMode={setGuessMode} selectedCharacter={player && characters && characters[player.id] ? characters[player.id] : null}></Board>
-      <GuessButton guessMode={guessMode} setGuessMode={setGuessMode}></GuessButton>
+      <GuessButton guessMode={guessMode} setGuessMode={setGuessMode} disabled={winner !== null}></GuessButton>
     </Stack>
   </Stack>
   <ErrorSnackbar />

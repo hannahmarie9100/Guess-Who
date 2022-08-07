@@ -30,7 +30,7 @@ const Cellphone = ({ messages, player, plrToMove, winner }) => {
         <Box sx={{ width: "95%", height: "85%", overflowY: 'scroll' }}>
             <Stack>
                 {messages.map((message) => <ChatMsg msg={message.message} isPlayer={message.sender === player.id} />)}
-                {winner !== null && messages.length > 0 && player && (plrToMove === player.id && messages[messages.length - 1].sender !== player.id)
+                {winner === null && messages.length > 0 && player && (plrToMove === player.id && messages[messages.length - 1].sender !== player.id)
                     ? <Stack direction="row">
                     <YesNoButton buttonText="Yes"></YesNoButton>
                     <YesNoButton buttonText="No"></YesNoButton>
