@@ -9,7 +9,7 @@ const DefaultChatMsg = ({ msg, isPlayer }) => {
         align={'left'}
         sx={({ palette }) => ChatMsgStyles(palette, isPlayer)}
       >
-        {msg && (/I guess \d{3}/).test(msg) ? <div>I guess <img src={`/imgs/${msg.slice(-3)}.svg`} style={{ marginTop: '5px', marginLeft: '5px', height: "50px" }} /></div> : msg}
+        {msg && (/I guess \d{3}/).test(msg) ? <div>I guess <img src={`https://raw.githubusercontent.com/hannahmarie9100/tictactoe/31c5ebf2e6c4602c0a344bc885983ef9d3fa58c3/frontend/public/imgs/${msg.slice(-3)}.svg`} style={{ marginTop: '5px', marginLeft: '5px', height: "50px" }} /></div> : msg}
       </Typography>
     </Box>
   )

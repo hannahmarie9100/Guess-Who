@@ -7,7 +7,7 @@ import { MoveTypes } from './types';
 import { useErrorContext } from './contexts/useErrorContext';
 import YesNoButton from './YesNoButton';
 
-const Cellphone = ({ messages, player, plrToMove }) => {
+const Cellphone = ({ messages, player, plrToMove, winner }) => {
     const [question, setQuestion] = useState("")
     const { setError } = useErrorContext()
     const HandleQuestionChange = (event) => [setQuestion(event.target.value)]
@@ -30,7 +30,7 @@ const Cellphone = ({ messages, player, plrToMove }) => {
         <Box sx={{ width: "95%", height: "85%", overflowY: 'scroll' }}>
             <Stack>
                 {messages.map((message) => <ChatMsg msg={message.message} isPlayer={message.sender === player.id} />)}
-                {messages.length > 0 && player && (plrToMove === player.id && messages[messages.length - 1].sender !== player.id)
+                {winner !== null && messages.length > 0 && player && (plrToMove === player.id && messages[messages.length - 1].sender !== player.id)
                     ? <Stack direction="row">
                     <YesNoButton buttonText="Yes"></YesNoButton>
                     <YesNoButton buttonText="No"></YesNoButton>
@@ -73,6 +73,7 @@ const Cellphone = ({ messages, player, plrToMove }) => {
                     }
                     }
                   }}
+                disabled={winner !== null || (player && (plrToMove !== player.id))}
                 InputProps={{
                     disableUnderline: true,
                     style: {
