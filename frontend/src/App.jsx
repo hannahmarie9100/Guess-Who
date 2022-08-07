@@ -63,7 +63,7 @@ function App() {
     <Cellphone player={player} messages={messages} plrToMove={plrToMove} winner={winner}></Cellphone>
     <Stack direction="column" space={4} justifyContent="center" alignItems="center">
       <Box sx={{ height: "10vh", display: "flex", alignItems: "center" }}><Typography variant="h4">{getTitleText()}</Typography></Box>
-      <Board selectMode={selectMode} setSelectMode={setSelectMode} guessMode={guessMode} setGuessMode={setGuessMode} selectedCharacter={player && characters[player.id] ? characters[player.id] : null}></Board>
+      <Board selectMode={selectMode} setSelectMode={setSelectMode} guessMode={guessMode} setGuessMode={setGuessMode} selectedCharacter={player && characters && characters[player.id] ? characters[player.id] : null}></Board>
       <GuessButton guessMode={guessMode} setGuessMode={setGuessMode}></GuessButton>
     </Stack>
   </Stack>
