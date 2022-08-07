@@ -62,6 +62,7 @@ function onPlayerJoin(plr, boardGame) {
   }
 
   state.plrToMove = plr.id;
+  state.characters = {}
   return { state };
 }
 
