@@ -55,7 +55,7 @@ function App() {
   }
 
   useEffect(() => {
-    if ((Object.keys(characters).length === 2))
+    if (characters && (Object.keys(characters).length === 2))
       setSelectMode(false)
   }, [characters])
 
