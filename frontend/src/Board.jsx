@@ -17,9 +17,10 @@ function Board({ selectMode, setSelectMode }) {
     return <Box
         sx={{
             width: 800,
-            height: 600,
+            height: 535,
             backgroundColor: "#ffffff",
-            borderRadius: "25px"
+            borderRadius: "25px",
+            marginTop: "70px",
         }}
     >
         <Grid container spacing={2}>

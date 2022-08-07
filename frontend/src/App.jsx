@@ -50,9 +50,9 @@ function App() {
       setSelectMode(false)
   }, [])
 
-  return <Box sx={{ backgroundColor: "#EDF1F5", width: "100vw", height: "100vh", overflow: "hidden" }}><Stack direction="row" spacing={2} alignItems="center">
+  return <Box sx={{ backgroundColor: "#EDF1F5", width: "100vw", height: "100vh", overflow: "hidden" }} display="flex" justifyContent="space-between" justifyContent="center" alignItems="center"><Stack direction="row" spacing={2} alignItems="center">
     <Cellphone player={player} messages={messages}></Cellphone>
-    <Stack direction="column" space={4} >
+    <Stack direction="column" space={4} justifyContent="center" alignItems="center">
       <Typography variant="h2">{getTitleText()}</Typography>
       <Board selectMode={selectMode} setSelectMode={setSelectMode}></Board>
       <GuessButton></GuessButton>
