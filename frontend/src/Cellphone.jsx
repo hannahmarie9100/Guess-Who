@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import { Button, Grid, IconButton, Stack, TextField } from '@mui/material';
 import ChatMsg from './ChatMsg';
-import SendIcon from '@mui/icons-material/Send';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleArrowRight } from '@fortawesome/free-solid-svg-icons'
 import client, { events } from '@urturn/client';
-
+import { MoveTypes } from './types';
 
 const Cellphone = () => {
     const [question, setQuestion] = useState("")
@@ -98,7 +97,16 @@ const Cellphone = () => {
                             '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
                         fontSize: '14px',
                     },
-                    endAdornment: <IconButton onClick={() => client.makeMove()}><FontAwesomeIcon icon={faCircleArrowRight} /></IconButton>
+                    endAdornment: (
+                    <IconButton onClick={() => {
+                        client.makeMove({
+                            "type": MoveTypes.Question,
+                            "data": question
+                        });
+                        setQuestion("");
+                    }}>
+                        <FontAwesomeIcon icon={faCircleArrowRight} />
+                    </IconButton>)
                 }}
             />
         </Box>
