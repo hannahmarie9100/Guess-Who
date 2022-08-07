@@ -2,13 +2,14 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 
 const DefaultChatMsg = ({ msg, isPlayer }) => {
+  // console.log(msg.data.slice(-3))
   return (
     <Box sx={{ display: 'flex', justifyContent: isPlayer ? 'flex-end' : 'flex-start' }}>
       <Typography
         align={'left'}
         sx={({ palette }) => ChatMsgStyles(palette, isPlayer)}
       >
-        {msg}
+        {msg && (/I guess \d{3}/).test(msg) ? <div>I guess <img src={`/imgs/${msg.slice(-3)}.svg`} style={{ marginTop: '5px', marginLeft: '5px', height: "50px" }} /></div> : msg}
       </Typography>
     </Box>
   )

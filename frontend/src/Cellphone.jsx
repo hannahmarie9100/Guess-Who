@@ -17,8 +17,9 @@ const Cellphone = ({ messages, player, plrToMove }) => {
     console.log("LAST: ", messages[messages.length - 1])
     return <Box
         sx={{
-            width: 400,
-            height: 600,
+            width: "25vw",
+            height: "70vh",
+            maxHeight: "600px",
             backgroundColor: "#ffffff",
             borderRadius: "25px",
             padding: "30px 15px",
@@ -28,7 +29,7 @@ const Cellphone = ({ messages, player, plrToMove }) => {
             alignItems: 'center'
         }}
     >
-        <Box sx={{ width: 400, height: 600, maxHeight: '88%', overflowY: 'scroll' }}>
+        <Box sx={{ width: "95%", height: "85%", overflowY: 'scroll' }}>
             <Stack>
                 {messages.map((message) => <ChatMsg msg={message.message} isPlayer={message.sender === player.id} />)}
                 {messages.length > 0 && player && (plrToMove === player.id && messages[messages.length - 1].sender !== player.id)
@@ -40,8 +41,8 @@ const Cellphone = ({ messages, player, plrToMove }) => {
         </Box>
         <Box
             sx={({ palette }) => ({
-                width: 350,
-                height: 50,
+                width: "90%",
+                height: "10%",
                 backgroundColor: palette.grey[300],
                 borderRadius: "25px",
                 display: 'flex',

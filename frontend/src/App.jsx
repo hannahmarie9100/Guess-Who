@@ -44,7 +44,8 @@ function App() {
       return "Select your character!"
     else if (Object.keys(characters).length < 2)
       return "Waiting on other player..."
-
+    else if (guessMode)
+      return "Guess the other player's character!"
     return ""
   }
 
@@ -56,9 +57,9 @@ function App() {
   return <Box sx={{ backgroundColor: "#EDF1F5", width: "100vw", height: "100vh", overflow: "hidden" }} display="flex" justifyContent="center" alignItems="center"><Stack direction="row" spacing={2} alignItems="center">
     <Cellphone player={player} messages={messages} plrToMove={plrToMove}></Cellphone>
     <Stack direction="column" space={4} justifyContent="center" alignItems="center">
-      <Typography variant="h2">{getTitleText()}</Typography>
+      <Box sx={{ height: "10vh" }}><Typography variant="h4">{getTitleText()}</Typography></Box>
       <Board selectMode={selectMode} setSelectMode={setSelectMode} guessMode={guessMode} setGuessMode={setGuessMode} selectedCharacter={player && characters[player.id] ? characters[player.id] : null}></Board>
-      <GuessButton setGuessMode={setGuessMode}></GuessButton>
+      <GuessButton guessMode={guessMode} setGuessMode={setGuessMode}></GuessButton>
     </Stack>
   </Stack>
   <ErrorSnackbar />

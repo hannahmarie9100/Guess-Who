@@ -17,10 +17,11 @@ function Board({ selectMode, setSelectMode, guessMode, setGuessMode, selectedCha
     return <Box
         sx={{
             width: 800,
-            height: 535,
+            height: "70vh",
+            maxHeight: "600px",
             backgroundColor: "#ffffff",
             borderRadius: "25px",
-            marginTop: "70px",
+            padding: "30px",
             filter: guessMode ? "drop-shadow(8px 8px 4px #00000060)" : ""
         }}
     >

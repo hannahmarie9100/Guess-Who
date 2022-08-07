@@ -126,50 +126,50 @@ function onPlayerMove(plr, move, boardGame) {
 
   if (type === MoveTypes.ChooseCharacter) {
     state.characters[plr.id] = data;
-  }
-
-  if (state.plrToMove !== plr.id) {
-    throw new Error("It's not your move!")
-  }
-  if (Object.keys(state.characters).length < 2) {
-    throw new Error("Both players must select their characters first!")
-  }
-  
-  if (type === MoveTypes.Question) {
-    state.messages.push({
-      sender: plr.id,
-      message: data,
-      // answer: undefined
-    })
-
-    state.plrToMove = getOtherPlayer(plr, players).id
-  } else if (type === MoveTypes.Answer) {
-    state.messages.push({
-      sender: plr.id,
-      message: data
-    })
-    // state.messages[state.messages.length-1].answer = data;
-  } else if (type === MoveTypes.Guess) {
-    const otherPlayer = getOtherPlayer(plr, players)
-    const correctGuess = data === state.characters[otherPlayer.id]
-
-    state.messages.push({
-      sender: plr.id,
-      message: `I guess ${data}`
-    },
-      {
-        sender: otherPlayer.id,
-        message: correctGuess ? "That's right! You win!" : "No, sorry that's not right!"
-      }
-    )
-
-    if (correctGuess) {
-      state.winner = plr
-
-      return { state, finished: true }
+  } else {
+    if (Object.keys(state.characters).length < 2) {
+      throw new Error("Both players must select their characters first!")
     }
-
-    state.plrToMove = getOtherPlayer(plr, players).id
+    if (state.plrToMove !== plr.id) {
+      throw new Error("It's not your move!")
+    }
+    
+    if (type === MoveTypes.Question) {
+      state.messages.push({
+        sender: plr.id,
+        message: data,
+        // answer: undefined
+      })
+  
+      state.plrToMove = getOtherPlayer(plr, players).id
+    } else if (type === MoveTypes.Answer) {
+      state.messages.push({
+        sender: plr.id,
+        message: data
+      })
+      // state.messages[state.messages.length-1].answer = data;
+    } else if (type === MoveTypes.Guess) {
+      const otherPlayer = getOtherPlayer(plr, players)
+      const correctGuess = data === state.characters[otherPlayer.id]
+  
+      state.messages.push({
+        sender: plr.id,
+        message: `I guess ${data}`
+      },
+        {
+          sender: otherPlayer.id,
+          message: correctGuess ? "That's right! You win!" : "No, sorry that's not right!"
+        }
+      )
+  
+      if (correctGuess) {
+        state.winner = plr
+  
+        return { state, finished: true }
+      }
+  
+      state.plrToMove = getOtherPlayer(plr, players).id
+    }
   }
 
   return { state, finished }
