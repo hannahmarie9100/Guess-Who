@@ -44,7 +44,7 @@ function onRoomStart() {
       winner: null,
       characters: {},
       plrToMove: null,
-      c: []
+      c: {}
     }
   };
 }
