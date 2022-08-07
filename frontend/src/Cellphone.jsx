@@ -7,6 +7,7 @@ import { faCircleArrowRight } from '@fortawesome/free-solid-svg-icons'
 import client, { events } from '@urturn/client';
 import { MoveTypes } from './types';
 import { useErrorContext } from './contexts/useErrorContext';
+import YesNoButton from './YesNoButton';
 
 const Cellphone = ({ messages, player }) => {
     const [question, setQuestion] = useState("")
@@ -26,8 +27,12 @@ const Cellphone = ({ messages, player }) => {
             alignItems: 'center'
         }}
     >
-        <Box sx={{ maxHeight: '88%', overflowY: 'scroll' }}>
+        <Box sx={{ width: 400, height: 600, maxHeight: '88%', overflowY: 'scroll' }}>
             <Stack>
+                <Stack direction="row">
+                    <YesNoButton buttonText="Yes"></YesNoButton>
+                    <YesNoButton buttonText="No"></YesNoButton>
+                </Stack>
                 {messages.map((message) => <ChatMsg msg={message.message} isPlayer={message.sender === player.id} />)}
             </Stack>
         </Box>
