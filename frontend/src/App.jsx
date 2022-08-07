@@ -9,24 +9,33 @@ import GuessButton from './GuessButton';
 
 function App() {
   const [boardGame, setBoardGame] = useState(client.getBoardGame() || {});
+  const [player, setPlayer] = useState(null);
+
   useEffect(() => {
     const onStateChanged = (newBoardGame) => {
       setBoardGame(newBoardGame);
     };
+    const getLocalPlayer = async () => {
+      setPlayer(await client.getLocalPlayer());
+    };
+
+    getLocalPlayer();
     events.on('stateChanged', onStateChanged);
     return () => {
       events.off('stateChanged', onStateChanged);
     };
   }, []);
 
-  console.log('boardGame:', boardGame);
-
   const {
-    state
+    state: {
+      messages
+    } = {
+      messages: []
+    },
   } = boardGame;
 
   return <Stack direction="row" spacing={2} alignItems="center">
-    <Cellphone></Cellphone>
+    <Cellphone player={player} messages={messages}></Cellphone>
     <Stack direction="column" space={4} >
       <Board></Board>
       <GuessButton></GuessButton>

@@ -7,9 +7,10 @@ import { faCircleArrowRight } from '@fortawesome/free-solid-svg-icons'
 import client, { events } from '@urturn/client';
 import { MoveTypes } from './types';
 
-const Cellphone = () => {
+const Cellphone = ({ messages, player }) => {
     const [question, setQuestion] = useState("")
     const HandleQuestionChange = (event) => [setQuestion(event.target.value)]
+
     return <Box
         sx={{
             width: 400,
@@ -25,48 +26,7 @@ const Cellphone = () => {
     >
         <Box sx={{ maxHeight: '88%', overflowY: 'scroll' }}>
             <Stack>
-                <ChatMsg
-                    msg="How radsfjiddddddddddddddddddddddddddaajklaj ifi u"
-                />
-                <ChatMsg
-                    msg="How r u"
-                    isPlayer
-                />
-                <ChatMsg
-                    msg="How radsfjiddddddddddddddddddddddddddaajklaj ifi u"
-                />
-                <ChatMsg
-                    msg="How r u"
-                />
-                <ChatMsg
-                    msg="How radsfjiddddddddddddddddddddddddddaajklaj ifi u"
-                    isPlayer
-                />
-                <ChatMsg
-                    msg="How r u"
-                    isPlayer
-                />
-                <ChatMsg
-                    msg="How radsfjiddddddddddddddddddddddddddaajklaj ifi u"
-                />
-                <ChatMsg
-                    msg="How r u"
-                    isPlayer
-                />
-                <ChatMsg
-                    msg="How radsfjiddddddddddddddddddddddddddaajklaj ifi u"
-                />
-                <ChatMsg
-                    msg="How r u"
-                    isPlayer
-                />
-                <ChatMsg
-                    msg="How radsfjiddddddddddddddddddddddddddaajklaj ifi u"
-                />
-                <ChatMsg
-                    msg="How r u"
-                    isPlayer
-                />
+                { messages.map((message) => <ChatMsg msg={message.message} isPlayer={message.sender === player.id} />) }
             </Stack>
         </Box>
         <Box
