@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
-import { Grid, Stack, TextField } from '@mui/material';
+import { Button, Grid, Stack, TextField } from '@mui/material';
 import ChatMsg from './ChatMsg';
+import SendIcon from '@mui/icons-material/Send';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleArrowRight } from '@fortawesome/free-solid-svg-icons'
 
 
 const Cellphone = ()  => {
@@ -32,10 +35,10 @@ const Cellphone = ()  => {
                 />
                 <ChatMsg
                     msg="How r u"
-                    isPlayer
                 />
                 <ChatMsg
                     msg="How radsfjiddddddddddddddddddddddddddaajklaj ifi u"
+                    isPlayer
                 />
                 <ChatMsg
                     msg="How r u"
@@ -89,7 +92,8 @@ const Cellphone = ()  => {
                         // eslint-disable-next-line max-len
                         '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
                         fontSize: '14px',
-                    }
+                    },
+                    endAdornment: <FontAwesomeIcon icon={ faCircleArrowRight } />
                 }}
             />
         </Box>
