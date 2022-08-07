@@ -1,28 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
-import { TextField } from '@mui/material';
-import ChatMsg from '@mui-treasury/components/chatMsg/ChatMsg';
+import { Grid, Stack, TextField } from '@mui/material';
+import ChatMsg from './ChatMsg';
 
 
-function Cellphone() {
+const Cellphone = ()  => {
     return <Box
         sx={{
             width: 400,
             height: 600,
             backgroundColor: "#ffffff",
             borderRadius: "25px",
-            padding: "5px"
+            padding: "30px 15px"
         }}
     >
         <Box>
-            <ChatMsg
-                avatar={''}
-                messages={[
-                    'Hi Jenny, How r u today?',
-                    'Did you train yesterday',
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Volutpat lacus laoreet non curabitur gravida.',
-                ]}
-            />
+            <Stack>
+                <ChatMsg
+                    msg="How radsfjiddddddddddddddddddddddddddaajklaj ifi u"
+                />
+                <ChatMsg
+                    msg="How r u"
+                    isPlayer
+                />
+            </Stack>
         </Box>
         <Box
             sx={{
