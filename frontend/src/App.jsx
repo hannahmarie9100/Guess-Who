@@ -40,12 +40,14 @@ function App() {
     },
   } = boardGame;
 
+  console.log(boardGame);
+
   function getTitleText() {
     if (winner)
       return `${winner.username} won!`
     if (selectMode && (characters && Object.keys(characters).length !== 2))
       return "Select your character!"
-    else if (Object.keys(characters).length < 2)
+    else if (characters && Object.keys(characters).length < 2)
       return "Waiting on other player..."
     else if (guessMode)
       return "Guess the other player's character!"
