@@ -44,6 +44,7 @@ function onRoomStart() {
  * @returns {BoardGameResult}
  */
 function onPlayerJoin(plr, boardGame) {
+  const { state } = boardGame
   console.log("HI")
   state.attackBoard = {"hi": 1}
   return { state }
