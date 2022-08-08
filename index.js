@@ -39,7 +39,10 @@
         [null, null, null],
       ],
       winner: null,
-      characters: {}
+      characters: {},
+      boardTwo: {},
+      attackBoard: {},
+      hitCounts: {},
     }
   };
 }
