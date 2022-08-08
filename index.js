@@ -45,7 +45,8 @@ function onRoomStart() {
  */
 function onPlayerJoin(plr, boardGame) {
   console.log("HI")
-  return { }
+  state.attackBoard = {"hi": 1}
+  return { state }
 }
 
 /**
