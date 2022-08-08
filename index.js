@@ -1,11 +1,118 @@
-// TicTacToe Example
+const Status = Object.freeze({
+  PreGame: 0,
+  InGame: 1,
+  EndGame: 2,
+});
+
+const MoveTypes = Object.freeze({
+  InitializeBoard: 0,
+  Attack: 1,
+});
+
+const AttackTypes = Object.freeze({
+  None: 0,
+  Miss: 1,
+  Hit: 2,
+  Sunk: 3,
+});
+
+const Ships = Object.freeze({
+  Carrier: 5,
+  Battleship: 4,
+  Cruiser: 3,
+  Submarine: 3,
+  Destroyer: 2,
+});
+
+const getEmptyHitCountsObject = () => {
+  const hitCounts = { ...Ships };
+
+  Object.keys(hitCounts).forEach((ship) => {
+    hitCounts[ship] = 0;
+  });
+
+  return hitCounts;
+};
+
+const getEmptyBoard = (defaultValue) => Array
+  .from({ length: 10 }, () => Array(10)
+    .fill(defaultValue));
+
+const validCell = (x, y, board) => x >= 0 && x < board.length && y >= 0 && y < board[x].length;
+
+const directions = [[1, 0], [0, 1], [-1, 0], [0, -1]];
+
+const getRandomGameState = () => {
+  const getRandomValue = (max) => Math.floor(Math.random() * max);
+
+  const playerBoard = getEmptyBoard(null);
+
+  const setBoatPosition = (ship) => {
+    let startPosition = [
+      getRandomValue(playerBoard.length),
+      getRandomValue(playerBoard[0].length),
+    ];
+
+    const startDirection = getRandomValue(directions.length);
+    const shipLength = Ships[ship];
+
+    const getNextDirection = (direction) => (direction + 1) % directions.length;
+
+    const isValidStartPosition = (position, direction) => {
+      const [x, y] = direction;
+
+      for (let i = 0; i < shipLength; i += 1) {
+        const nextX = position[0] + (i * x);
+        const nextY = position[1] + (i * y);
+        if (!(
+          validCell(nextX, nextY, playerBoard) && playerBoard[nextX][nextY] === null)) {
+          return false;
+        }
+      }
+
+      return true;
+    };
+
+    let validStart = isValidStartPosition(startPosition, directions[startDirection]);
+    let currentDirection = startDirection;
+
+    while (!validStart) {
+      currentDirection = getNextDirection(currentDirection);
+
+      if (currentDirection === startDirection) {
+        startPosition = [
+          getRandomValue(playerBoard.length),
+          getRandomValue(playerBoard[0].length),
+        ];
+      }
+
+      validStart = isValidStartPosition(startPosition, directions[currentDirection]);
+    }
+
+    const [x, y] = directions[currentDirection];
+
+    for (let i = 0; i < shipLength; i += 1) {
+      const nextX = startPosition[0] + (i * x);
+      const nextY = startPosition[1] + (i * y);
+
+      playerBoard[nextX][nextY] = ship;
+    }
+  };
+
+  Object.keys(Ships).forEach((ship) => {
+    setBoatPosition(ship);
+  });
+
+  return playerBoard;
+};
+
+const isEndGame = (hitCounts) => JSON.stringify(hitCounts) === JSON.stringify(Ships);
+
+const getOtherPlayer = (players, currentPlayerID) => players
+  .find((plr) => plr.id !== currentPlayerID);
+
 /**
  * Generic board game types
- * @type Player: json object, in the format of
- * {
- *  id: string, unique player id
- *  username: string, the player's display name
- * }
  * @type BoardGame: json object, in the format of
  * {
  *  // creator read write fields
@@ -14,7 +121,7 @@
  *  finished: boolean (default=false), when true there will be no new board game state changes
  *
  *  // creator read only
- *  players: [Player], array of player objects
+ *  players: [string], array of unique playerIds
  *  version: Number, an integer value that increases by 1 with each state change
  * }
  * @type BoardGameResult: json object, in the format of
@@ -30,123 +137,155 @@
  * onRoomStart
  * @returns {BoardGameResult}
  */
- function onRoomStart() {
+function onRoomStart() {
   return {
     state: {
-      board: [
-        [null, null, null],
-        [null, null, null],
-        [null, null, null],
-      ],
-      winner: null,
-      characters: {},
-      boardTwo: {},
+      status: Status.PreGame,
+      board: {},
       attackBoard: {},
       hitCounts: {},
-    }
+      playersReady: 0,
+      plrIDToMove: null,
+      winner: null,
+    },
   };
 }
 
 /**
  * onPlayerJoin
- * @param {Player} player, represents the player that is attempting to join this game
+ * @param {string} plr string, which represents the player id
  * @param {BoardGame} currentGame
  * @returns {BoardGameResult}
  */
 function onPlayerJoin(plr, boardGame) {
-  const { players } = boardGame;
+  const { players, state } = boardGame;
+
+  if (state.status !== Status.PreGame) {
+    throw new Error('The game has already started!');
+  }
+
+  state.board[plr.id] = getRandomGameState();
+  state.attackBoard[plr.id] = getEmptyBoard(AttackTypes.None);
+  state.hitCounts[plr.id] = getEmptyHitCountsObject();
 
   if (players.length === 2) {
-    return { joinable: false };
+    state.plrIDToMove = players[0].id;
+
+    return {
+      state,
+      joinable: false,
+    };
   }
-  return { };
+
+  return {
+    state,
+    joinable: true,
+  };
 }
 
 /**
  * onPlayerMove
- * @param {Player} player, the player that is attempting to make a move
+ * @param {string} plr string, which represents the player id
  * @param {*} move json object, controlled the creator that represents the player's move
  * @param {BoardGame} currentGame
  * @returns {BoardGameResult}
  */
- function getPlrMark(plr, plrs) {
-  if (plr === plrs[0]) { // for simplicity, the first player will be 'X'
-    return 'X';
-  }
-  return 'O';
-}
-
-function isEndGame(board, plrs) {
-  function getPlrFromMark(mark, plrs) {
-    return mark === 'X' ? plrs[0] : plrs[1];
-  }
-
-  function isWinningSequence(arr) {
-    return arr[0] !== null && arr[0] === arr[1] && arr[1] === arr[2];
-  }
-
-  // check rows and cols
-  for (let i = 0; i < board.length; i += 1) {
-    const row = board[i];
-    const col = [board[0][i], board[1][i], board[2][i]];
-
-    if (isWinningSequence(row)) {
-      return [true, getPlrFromMark(row[0], plrs)];
-    } if (isWinningSequence(col)) {
-      return [true, getPlrFromMark(col[0], plrs)];
-    }
-  }
-
-  // check diagonals
-  const d1 = [board[0][0], board[1][1], board[2][2]];
-  const d2 = [board[0][2], board[1][1], board[2][0]];
-  if (isWinningSequence(d1)) {
-    return [true, getPlrFromMark(d1[0], plrs)];
-  } if (isWinningSequence(d2)) {
-    return [true, getPlrFromMark(d2[0], plrs)];
-  }
-
-  // check for tie
-  if (board.some((row) => row.some((mark) => mark === null))) {
-    return [false, null];
-  }
-  return [true, null];
-}
-
 function onPlayerMove(plr, move, boardGame) {
   const { state, players } = boardGame;
-  const { board, plrToMoveIndex } = state;
+  const {
+    board, attackBoard, hitCounts, plrIDToMove,
+  } = state;
 
-  const { x, y } = move;
+  const otherPlrID = getOtherPlayer(players, plr.id).id;
 
-  const plrMark = getPlrMark(plr, players);
+  const { moveType } = move;
 
-  board[x][y] = plrMark;
+  if (moveType === MoveTypes.InitializeBoard) {
+    if (state.Status === Status.InGame) {
+      throw new Error('The game has already started!');
+    }
 
-  const [isEnd, winner] = isEndGame(board, players);
+    const { playerBoard } = move;
+    board[plr.id] = playerBoard;
+    state.playersReady += 1;
 
-  if (isEnd) {
-    state.winner = winner;
-    return { state, finished: true };
+    if (state.playersReady === players.length) {
+      state.status = Status.InGame;
+    }
+  } else if (moveType === MoveTypes.Attack) {
+    if (state.status === Status.PreGame) {
+      throw new Error("The game hasn't started!");
+    } else if (plrIDToMove !== plr.id) {
+      throw new Error("It's not your turn! Waiting on other player.");
+    }
+
+    const sinkShip = (x, y, opponentCell) => {
+      if (
+        validCell(x, y, board[plr.id])
+        && board[otherPlrID][x][y] === opponentCell
+        && attackBoard[plr.id][x][y] !== AttackTypes.Sunk
+      ) {
+        attackBoard[plr.id][x][y] = AttackTypes.Sunk;
+
+        directions.forEach((direction) => {
+          sinkShip(x + direction[0], y + direction[1], opponentCell);
+        });
+      }
+    };
+
+    const { attack } = move;
+    const [x, y] = attack;
+
+    if (attackBoard[plr.id][x][y] !== AttackTypes.None) {
+      throw new Error("You've already attacked this cell!");
+    }
+
+    const opponentCell = board[otherPlrID][x][y];
+    if (opponentCell !== null) {
+      hitCounts[plr.id][opponentCell] += 1;
+
+      if (hitCounts[plr.id][opponentCell] === Ships[opponentCell]) {
+        sinkShip(x, y, opponentCell);
+      } else {
+        attackBoard[plr.id][x][y] = AttackTypes.Hit;
+      }
+    } else {
+      attackBoard[plr.id][x][y] = AttackTypes.Miss;
+    }
+
+    if (isEndGame(hitCounts[plr.id])) {
+      state.status = Status.EndGame;
+      state.winner = plr.id;
+      return { state, finished: true };
+    }
+
+    state.plrIDToMove = otherPlrID;
   }
+
   return { state };
 }
 
 /**
  * onPlayerQuit
- * @param {Player} player, the player that is attempting to quit the game
+ * @param {string} plr string, which represents the player id
  * @param {BoardGame} currentGame
  * @returns {BoardGameResult}
  */
- function onPlayerQuit(plr, boardGame) {
-  console.log("HI")
+function onPlayerQuit(plr, boardGame) {
   const { state, players } = boardGame;
+  state.status = Status.EndGame;
 
   if (players.length === 1) {
     const [winner] = players;
     state.winner = winner;
-    return { state, joinable: false, finished: true };
+
+    return {
+      state,
+      joinable: false,
+      finished: true,
+    };
   }
+
   return { joinable: false, finished: true };
 }
 
