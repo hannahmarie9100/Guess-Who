@@ -27,7 +27,6 @@
 function onRoomStart() {
   return {
     state: {
-      status: Status.PreGame,
       board: {},
       attackBoard: {},
       hitCounts: {},
