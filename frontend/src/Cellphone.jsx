@@ -36,7 +36,7 @@ const Cellphone = ({ messages, player, plrToMove, winner }) => {
             alignItems: 'center'
         }}
     >
-        <Box sx={{ width: "95%", height: "85%", overflowY: 'scroll' }}>
+        <Box sx={{ width: "95%", height: "85%", overflowY: 'scroll', paddingRight: "10px", marginLeft: "10px" }}>
             <Stack>
                 {messages.map((message) => <ChatMsg msg={message.message} isPlayer={message.sender === player.id} />)}
                 {winner === null && messages.length > 0 && player && (plrToMove === player.id && messages[messages.length - 1].sender !== player.id)
