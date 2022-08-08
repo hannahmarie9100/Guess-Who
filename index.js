@@ -45,6 +45,7 @@ function onRoomStart() {
  */
 function onPlayerJoin(plr, boardGame) {
   console.log("HI")
+  return { }
 }
 
 /**
@@ -56,6 +57,7 @@ function onPlayerJoin(plr, boardGame) {
  */
 function onPlayerMove(plr, move, boardGame) {
   console.log("2")
+  return { }
 }
 
 /**
@@ -66,6 +68,7 @@ function onPlayerMove(plr, move, boardGame) {
  */
 function onPlayerQuit(plr, boardGame) {
   console.log("3")
+  return { }
 }
 
 module.exports = {
