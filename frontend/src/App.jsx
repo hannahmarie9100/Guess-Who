@@ -17,7 +17,8 @@ function App() {
   useEffect(() => {
     const onStateChanged = (newBoardGame) => {
       console.log("NEW BOARD GAME: ", newBoardGame)
-      setBoardGame(newBoardGame);
+      console.log("STRINGIFIED: ", JSON.parse(JSON.stringify(newBoardGame)))
+      setBoardGame(JSON.parse(JSON.stringify(newBoardGame)));
     };
     const getLocalPlayer = async () => {
       setPlayer(await client.getLocalPlayer());
